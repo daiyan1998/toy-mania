@@ -9,7 +9,7 @@ import logo from "../../assets/clipart2049110.png";
 const Footer = () => {
   return (
     <footer className="">
-      <div className="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
+      <div className="max-w-screen px-4 py-16 mx-auto sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div>
             <img className="h-16" src={logo} alt="" />
