@@ -1,5 +1,13 @@
 import logo from "../../assets/clipart2049110.png";
-import { AiOutlineHome } from "react-icons/ai";
+import {
+  AiFillFileAdd,
+  AiFillPlaySquare,
+  AiFillPlusCircle,
+  AiOutlineHome,
+  AiOutlinePlus,
+  AiTwotonePlusCircle,
+  AiTwotonePlusSquare,
+} from "react-icons/ai";
 import { MdOutlinePersonOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 const NavBar = () => {
@@ -14,13 +22,18 @@ const NavBar = () => {
             <Link>Home</Link>
           </li>
           <li className="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer">
-            <Link>Produits</Link>
+            <Link>All Toys</Link>
           </li>
           <li className="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer">
-            <Link>Collections</Link>
+            <Link>My Toys</Link>
           </li>
           <li className="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer">
-            <Link>Contact</Link>
+            <Link>Blogs</Link>
+          </li>
+          <li className="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer">
+            <Link className="flex items-center  gap-1">
+              <AiOutlinePlus className="inline-block " /> Add A Toy
+            </Link>
           </li>
         </ul>
       </nav>
