@@ -10,7 +10,6 @@ const Gallary = () => {
         setImages(data.images);
       });
   }, []);
-  console.log("data", images);
   return (
     <>
       <h3 className="text-9xl font-bold text-center py-16 bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-violet-600]">
