@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import AOS from "aos";
+import "aos/dist/aos.css";
+AOS.init();
 
 const Gallary = () => {
   const [images, setImages] = useState([]);
@@ -18,7 +21,13 @@ const Gallary = () => {
       <ResponsiveMasonry>
         <Masonry gutter="20px">
           {images.map((img, i) => (
-            <img className="rounded-lg" key={i} src={img} />
+            <img
+              data-aos="fade-up"
+              data-aos-anchor-placement="top-center"
+              className="rounded-lg"
+              key={i}
+              src={img}
+            />
           ))}
         </Masonry>
       </ResponsiveMasonry>

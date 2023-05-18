@@ -1,10 +1,14 @@
 import { useContext } from "react";
 import { AiFillGoogleCircle } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 
 const Login = () => {
   const { signIn, googleSignIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
+  const from = location.state?.from?.pathname || "/";
 
   const loginHandler = (e) => {
     e.preventDefault();
@@ -13,7 +17,15 @@ const Login = () => {
     const password = form.password.value;
     console.log(email, password);
 
-    signIn(email, password).then((res) => console.log(res));
+    signIn(email, password)
+      .then((result) => {
+        const loggedUser = result.user;
+        console.log(loggedUser);
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

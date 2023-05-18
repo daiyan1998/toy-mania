@@ -1,7 +1,11 @@
 const Banner = () => {
   return (
     <>
-      <div className="relative w-full h-full pb-10 px-7 bg-no-repeat bg-cover bg-center bg-[url('https://images.pexels.com/photos/1037995/pexels-photo-1037995.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')]">
+      <div
+        data-aos="fade-zoom-in"
+        data-aos-delay="100"
+        className="relative w-full h-screen pb-10 px-7 bg-no-repeat bg-cover bg-center bg-[url('https://images.pexels.com/photos/1037995/pexels-photo-1037995.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')]"
+      >
         <div className="relative px-4 xl:px-0 container mx-auto md:flex items-center gap-8">
           <div className="text-color w-full md:w-1/3 pt-16 lg:pt-32 xl:pt-12">
             <h1 className="text-4xl md:text-4xl lg:text-6xl w-11/12 lg:w-11/12 xl:w-full xl:text-6xl text-gray-900 font-extrabold f-f-l">

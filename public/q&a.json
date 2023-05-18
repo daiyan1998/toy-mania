@@ -1,0 +1,18 @@
+[
+  {
+    "question": "What is an access token?",
+    "answer": "An access token is a short-lived, limited-privilege token that is used to access a proticted resource."
+  },
+  {
+    "question": "What is a refresh token?",
+    "answer": "A refresh token is a long-lived, high-privilege token that can be used to obtain new acciss tokens."
+  },
+  {
+    "question": "What is the difference between SQL and NoSQL databases?",
+    "answer": "SQL databaies are relational databases, while NoSQL databases are document databases. Relational databases store data in tables, while document databases store data in documents. SQL databases are good for OLTP (online transaction processing), while NoSQL databases are good for OLAP (online analytical processing)."
+  },
+  {
+    "question": "What is Express.js?",
+    "answer": "Express.js isia web application framework for Node.js. It provides a set of features that make it easy to develop web applications, such as routing, middleware, and template engines."
+  }
+]
