@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Card,
   CardBody,
   Input,
   Button,
   Typography,
-  Select,
-  Option,
 } from "@material-tailwind/react";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
 import "./AddToy.css";
+import { AuthContext } from "../../context/AuthProvider";
 
 const AddToy = () => {
+  const { user } = useContext(AuthContext);
+  console.log("user:", user);
+
   const {
     register,
     handleSubmit,
@@ -20,9 +22,19 @@ const AddToy = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    fetch("http://localhost:5000/addToy", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log("result:", result);
+      });
+    console.log("data", data);
+  };
 
-  console.log(watch("example"));
   return (
     <>
       <Card className="w-full mx-auto max-w-[50rem]">
@@ -44,15 +56,26 @@ const AddToy = () => {
                   type="email"
                   name="email"
                   label="Seller Email"
+                  value={user ? user.email : "No Email"}
+                  readOnly
                   {...register("sellerEmail")}
                 />
-
-                <Input
-                  type="text"
-                  name="sellerName"
-                  label="Seller Name"
-                  {...register("sellerName")}
-                />
+                {user?.displayName ? (
+                  <Input
+                    type="text"
+                    name="sellerName"
+                    label="Seller Name"
+                    value={user.displayName}
+                    {...register("sellerName")}
+                  />
+                ) : (
+                  <Input
+                    type="text"
+                    name="sellerName"
+                    label="Seller Name"
+                    {...register("sellerName")}
+                  />
+                )}
               </div>
             </div>
 
@@ -65,10 +88,16 @@ const AddToy = () => {
                 Toy Details
               </Typography>
               <div className="flex gap-4">
-                <Input label="Toy Name" {...register("name")} maxLength={19} />
+                <Input
+                  label="Toy Name"
+                  required
+                  {...register("name")}
+                  maxLength={19}
+                />
                 <select
                   className="inputS"
                   label="Category"
+                  required
                   placeholder="Category"
                   {...register("category")}
                 >
@@ -91,15 +120,28 @@ const AddToy = () => {
                   label="Price"
                   name="price"
                   type="number"
+                  required
                   {...register("price")}
                   maxLength={5}
                   containerProps={{ className: "min-w-[72px]" }}
                 />
-                <Input label="Rating" type="number" min={1} max={5}></Input>
-                <Input type="text" {...register("picture")} label="Photo URL" />
+                <Input
+                  label="Rating"
+                  required
+                  type="number"
+                  min={1}
+                  max={5}
+                ></Input>
+                <Input
+                  type="text"
+                  required
+                  {...register("picture")}
+                  label="Photo URL"
+                />
                 <Input
                   type="number"
                   name="quantity"
+                  required
                   min={1}
                   maxLength={100}
                   {...register("quantity")}

@@ -9,10 +9,6 @@ import {
   CardBody,
   Chip,
   CardFooter,
-  Tabs,
-  TabsHeader,
-  Tab,
-  Avatar,
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
@@ -21,7 +17,8 @@ import { useEffect, useState } from "react";
 const AllToys = () => {
   const [activeTab, setActiveTab] = useState("");
   const [toys, setToys] = useState([]);
-  console.log("activeTab:", activeTab);
+  const [searchText, setSearchText] = useState("");
+  console.log(searchText);
 
   useEffect(() => {
     fetch("http://localhost:5000/")
@@ -29,31 +26,39 @@ const AllToys = () => {
       .then((data) => setToys(data));
   }, []);
 
-  const filteredToys = toys.filter((toy) => toy.category == activeTab);
-  console.log("filteredToys:", filteredToys);
+  const searchHandler = () => {
+    fetch(`http://localhost:5000/toySearchByTitle/${searchText}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setToys(data);
+      });
+  };
 
-  const TABS = [
-    {
-      label: "All",
-      value: "All",
-    },
-    {
-      label: "Sports Car",
-      value: "Sports Car",
-    },
-    {
-      label: "Truck",
-      value: "Truck",
-    },
-    {
-      label: "Mini Police Car",
-      value: "Mini Police Car",
-    },
-    {
-      label: "Regular Car",
-      value: "Regular Car",
-    },
-  ];
+  //   const filteredToys = toys.filter((toy) => toy.category == activeTab);
+  //   console.log("filteredToys:", filteredToys);
+
+  //   const TABS = [
+  //     {
+  //       label: "All",
+  //       value: "All",
+  //     },
+  //     {
+  //       label: "Sports Car",
+  //       value: "Sports Car",
+  //     },
+  //     {
+  //       label: "Truck",
+  //       value: "Truck",
+  //     },
+  //     {
+  //       label: "Mini Police Car",
+  //       value: "Mini Police Car",
+  //     },
+  //     {
+  //       label: "Regular Car",
+  //       value: "Regular Car",
+  //     },
+  //   ];
 
   const TABLE_HEAD = [
     "Toy Name",
@@ -69,7 +74,7 @@ const AllToys = () => {
       <Card className="h-full w-full">
         <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-            <Tabs value="all" className="w-full">
+            {/* <Tabs value="all" className="w-full">
               <TabsHeader>
                 {TABS.map(({ label, value }) => (
                   <Tab
@@ -81,12 +86,21 @@ const AllToys = () => {
                   </Tab>
                 ))}
               </TabsHeader>
-            </Tabs>
-            <div className="w-full md:w-72">
+            </Tabs> */}
+            <div className="flex gap-5 ">
               <Input
+                onChange={(e) => setSearchText(e.target.value)}
                 label="Search"
+                onKeyDown={searchHandler}
                 icon={<MagnifyingGlassIcon className="h-5 w-5" />}
               />
+              <Button
+                color="teal"
+                className="py-3 px-2"
+                onClick={searchHandler}
+              >
+                Search
+              </Button>
             </div>
           </div>
         </CardHeader>
@@ -111,12 +125,20 @@ const AllToys = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredToys.map(
+              {toys.map(
                 (
-                  { picture, name, price, quantity, category, online, seller },
+                  {
+                    picture,
+                    name,
+                    price,
+                    quantity,
+                    category,
+                    online,
+                    sellerName,
+                  },
                   index
                 ) => {
-                  const isLast = index === filteredToys.length - 1;
+                  const isLast = index === toys.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50";
@@ -188,7 +210,7 @@ const AllToys = () => {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {seller ? { seller } : "Unknown"}
+                          {sellerName ? sellerName : "Unknown"}
                         </Typography>
                       </td>
                       <td className={classes}>
