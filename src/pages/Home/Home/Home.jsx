@@ -1,3 +1,4 @@
+import Catagory from "../../CategoryTab/Category";
 import Banner from "../Banner/Banner";
 import Gallary from "../Gallary/Gallary";
 
@@ -6,6 +7,7 @@ const Home = () => {
     <>
       <Banner></Banner>
       <Gallary></Gallary>
+      <Catagory></Catagory>
     </>
   );
 };
