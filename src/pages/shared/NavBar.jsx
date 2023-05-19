@@ -30,7 +30,7 @@ const NavBar = () => {
               <Link to={"/"}>Home</Link>
             </li>
             <li className="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer">
-              <Link>All Toys</Link>
+              <Link to={"/allToys"}>All Toys</Link>
             </li>
             <li className="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer">
               <Link to={"/mytoys"}>My Toys</Link>
@@ -39,7 +39,7 @@ const NavBar = () => {
               <Link to={"/blog"}>Blogs</Link>
             </li>
             <li className="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer">
-              <Link className="flex items-center  gap-1">
+              <Link to={"/addToy"} className="flex items-center  gap-1">
                 <AiOutlinePlus className="inline-block " /> Add A Toy
               </Link>
             </li>

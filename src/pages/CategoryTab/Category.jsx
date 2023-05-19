@@ -5,8 +5,7 @@ import CategoryCard from "./CategoryCard";
 const Catagory = () => {
   return (
     <div className="mt-16">
-      <h3 className="text-6xl font-bold py-10 text-teal-400 text-center">
-        {" "}
+      <h3 className="sm:text-6xl text-3xl sm:font-bold py-10 text-teal-400 text-center">
         Car by catagory
       </h3>
       <img

@@ -76,7 +76,7 @@ const CatagoryTab = () => {
           {data.map(({ value, desc }) => (
             <TabPanel key={value} value={value}>
               <SyncLoader loading={loading} color="#36a7c7" />
-              <div className="flex flex-wrap">
+              <div className="grid sm:grid-cols-3 grid-cols-1 justify-items-center items-center">
                 {filteredToys.map((filteredToy) => (
                   <CategoryCard filteredToy={filteredToy}></CategoryCard>
                 ))}
