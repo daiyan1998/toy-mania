@@ -11,7 +11,7 @@ import {
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Table from "../shared/Table";
+import Table from "./Table";
 
 const AllToys = () => {
   const [toys, setToys] = useState([]);

@@ -50,7 +50,10 @@ const NavBar = () => {
         <div className="w-3/12 gap-5 flex justify-end">
           {user && (
             <div className="flex -space-x-2 overflow-hidden">
-              <Tooltip content={user.displayName} placement="left">
+              <Tooltip
+                content={user.displayName ? user.displayName : "No Name"}
+                placement="left"
+              >
                 <img
                   className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
                   src={user.photoURL}
