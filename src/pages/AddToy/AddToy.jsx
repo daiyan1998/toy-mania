@@ -54,7 +54,6 @@ const AddToy = () => {
               <div className="flex gap-3">
                 <Input
                   type="email"
-                  name="email"
                   label="Seller Email"
                   value={user ? user.email : "No Email"}
                   readOnly
@@ -63,7 +62,6 @@ const AddToy = () => {
                 {user?.displayName ? (
                   <Input
                     type="text"
-                    name="sellerName"
                     label="Seller Name"
                     value={user.displayName}
                     {...register("sellerName")}
@@ -71,7 +69,6 @@ const AddToy = () => {
                 ) : (
                   <Input
                     type="text"
-                    name="sellerName"
                     label="Seller Name"
                     {...register("sellerName")}
                   />
@@ -118,7 +115,6 @@ const AddToy = () => {
               <div className="my-4 grid grid-cols-2 items-center gap-4">
                 <Input
                   label="Price"
-                  name="price"
                   type="number"
                   required
                   {...register("price")}
@@ -130,6 +126,7 @@ const AddToy = () => {
                   required
                   type="number"
                   min={1}
+                  {...register("rating")}
                   max={5}
                 ></Input>
                 <Input
@@ -140,7 +137,6 @@ const AddToy = () => {
                 />
                 <Input
                   type="number"
-                  name="quantity"
                   required
                   min={1}
                   maxLength={100}
@@ -149,6 +145,12 @@ const AddToy = () => {
                   label="Quantity"
                 />
               </div>
+              <Input
+                type="text"
+                className="w-full h-11"
+                label="Description"
+                {...register("description")}
+              ></Input>
             </div>
             <Button type="submit" size="lg">
               Add
