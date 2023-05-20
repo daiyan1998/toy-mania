@@ -16,7 +16,6 @@ import Table from "../shared/Table";
 const AllToys = () => {
   const [toys, setToys] = useState([]);
   const [searchText, setSearchText] = useState("");
-  console.log(searchText);
 
   useEffect(() => {
     fetch("http://localhost:5000/")
@@ -31,7 +30,6 @@ const AllToys = () => {
         setToys(data);
       });
   };
-  console.log("toys:A", toys);
 
   //   const filteredToys = toys.filter((toy) => toy.category == activeTab);
   //   console.log("filteredToys:", filteredToys);

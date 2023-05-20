@@ -10,7 +10,6 @@ import { MdDelete, MdOutlineEditNote } from "react-icons/md";
 import Modal from "./Modal";
 
 const Table = ({ toys }) => {
-  console.log("toys:", toys);
   const TABLE_HEAD = [
     "Toy Name",
     "Price",
@@ -80,13 +79,6 @@ const Table = ({ toys }) => {
                           >
                             {name}
                           </Typography>
-                          {/* <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal opacity-70"
-                            >
-                              {email}
-                            </Typography> */}
                         </div>
                       </div>
                     </td>
@@ -133,24 +125,7 @@ const Table = ({ toys }) => {
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <div className="flex gap-1">
-                        <Button color="teal">
-                          <MdDelete className="text-2xl" />
-                        </Button>
-                        <div className="flex">
-                          <Modal
-                            toys={{
-                              picture,
-                              _id,
-                              name,
-                              price,
-                              quantity,
-                              category,
-                              online,
-                              sellerName,
-                            }}
-                          ></Modal>
-                        </div>
+                      <div className="flex">
                         <Button color="teal">
                           <Link to={`/myToys/${_id}`}>View Details</Link>
                         </Button>

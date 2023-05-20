@@ -10,15 +10,40 @@ import {
   Checkbox,
   Button,
   Textarea,
+  ButtonGroup,
 } from "@material-tailwind/react";
 import { MdOutlineEditNote } from "react-icons/md";
+import { useForm } from "react-hook-form";
 
 const Modal = ({ toys }) => {
   const { picture, _id, name, price, quantity, category, online, sellerName } =
     toys;
-  const [open, setOpen] = useState(false);
 
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    fetch(`http://localhost:5000/updateToy/${_id}`, {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ data }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        if (result.modifiedCount > 0) {
+          alert("Updated");
+        }
+      });
+    console.log(data);
+  };
+
   return (
     <div>
       <Fragment>
@@ -27,32 +52,57 @@ const Modal = ({ toys }) => {
           Update
         </Button>
         <Dialog open={open} handler={handleOpen}>
-          <DialogHeader>Update Your Preference</DialogHeader>
+          <DialogHeader>Update Your Information</DialogHeader>
           <DialogBody divider className="h-[30rem]  flex justify-center">
             <Card color="transparent" shadow={false}>
-              <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
+              >
                 <div className="mb-4 flex flex-col gap-6">
-                  <Input size="lg" type="number" label="Price" />
-                  <Input size="lg" type="number" label="Available Quantity" />
+                  <Input
+                    size="lg"
+                    defaultValue={price}
+                    label="Price"
+                    {...register("price")}
+                  />
+                  <input
+                    size="lg"
+                    value={_id}
+                    label="Price"
+                    className="hidden"
+                    {...register("_id")}
+                  />
+                  <Input
+                    size="lg"
+                    defaultValue={quantity}
+                    type="text"
+                    label="Available Quantity"
+                    {...register("quantity")}
+                  />
                 </div>
                 <div className="w-96">
-                  <Textarea label="Detail Description" />
+                  <Textarea
+                    type="text"
+                    label="Detail Description"
+                    {...register("description")}
+                  />
                 </div>
-
-                {/* <Button className="mt-6" fullWidth>
-                  Update
-                </Button> */}
+                <ButtonGroup className="">
+                  <Button
+                    onClick={handleOpen}
+                    className="mt-6 w-full"
+                    type="submit"
+                  >
+                    Save
+                  </Button>
+                  <Button onClick={handleOpen} className="mt-6 w-full">
+                    Exit
+                  </Button>
+                </ButtonGroup>
               </form>
             </Card>
           </DialogBody>
-          <DialogFooter className="space-x-2">
-            <Button variant="outlined" color="red" onClick={handleOpen}>
-              close
-            </Button>
-            <Button variant="gradient" color="green" onClick={handleOpen}>
-              Save changes
-            </Button>
-          </DialogFooter>
         </Dialog>
       </Fragment>
     </div>
