@@ -1,16 +1,13 @@
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import {
-  Card,
-  CardHeader,
-  Input,
   Typography,
   Button,
   CardBody,
   Chip,
-  CardFooter,
+  ButtonGroup,
 } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { MdDelete, MdOutlineEditNote } from "react-icons/md";
+import Modal from "./Modal";
 
 const Table = ({ toys }) => {
   console.log("toys:", toys);
@@ -22,6 +19,7 @@ const Table = ({ toys }) => {
     "Seller",
     "",
   ];
+
   return (
     <>
       <CardBody className="overflow-scroll px-0">
@@ -135,14 +133,34 @@ const Table = ({ toys }) => {
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <Button color="teal">
-                        <Link to={`/myToys/${_id}`}>View Details</Link>
-                      </Button>
+                      <div className="flex gap-1">
+                        <Button color="teal">
+                          <MdDelete className="text-2xl" />
+                        </Button>
+                        <div className="flex">
+                          <Modal
+                            toys={{
+                              picture,
+                              _id,
+                              name,
+                              price,
+                              quantity,
+                              category,
+                              online,
+                              sellerName,
+                            }}
+                          ></Modal>
+                        </div>
+                        <Button color="teal">
+                          <Link to={`/myToys/${_id}`}>View Details</Link>
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 );
               }
             )}
+            ;
           </tbody>
         </table>
       </CardBody>

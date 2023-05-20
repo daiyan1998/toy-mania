@@ -31,6 +31,7 @@ const AllToys = () => {
         setToys(data);
       });
   };
+  console.log("toys:A", toys);
 
   //   const filteredToys = toys.filter((toy) => toy.category == activeTab);
   //   console.log("filteredToys:", filteredToys);
@@ -89,7 +90,6 @@ const AllToys = () => {
               <Input
                 onChange={(e) => setSearchText(e.target.value)}
                 label="Search"
-                onKeyDown={searchHandler}
                 icon={<MagnifyingGlassIcon className="h-5 w-5" />}
               />
               <Button
