@@ -28,10 +28,14 @@ import { Tooltip } from "@material-tailwind/react";
 import unknown from "../../assets/unknown.jpg";
 
 const NavBar = () => {
-  const { user, logOut } = useContext(AuthContext);
+  const { user, logOut, setTitle } = useContext(AuthContext);
   const [openNav, setOpenNav] = useState(false);
   const logoutHandler = () => {
     logOut();
+  };
+
+  const updateTitles = (title) => {
+    document.title = `Toy Mania - ${title}`;
   };
 
   useEffect(() => {
@@ -43,31 +47,51 @@ const NavBar = () => {
 
   const navList = (
     <ul className="mb-4 mt-2 text-lg text-gray-700 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      <Link to={"/"} className="flex items-center">
+      <Link
+        onClick={() => updateTitles("Home")}
+        to={"/"}
+        className="flex items-center"
+      >
         <div as="li" className="p-1 font-normal flex items-center gap-1">
           <AiOutlineHome></AiOutlineHome>
           Home
         </div>
       </Link>
-      <Link to={"/allToys"} className="flex items-center">
+      <Link
+        onClick={() => updateTitles("All Toys")}
+        to={"/allToys"}
+        className="flex items-center"
+      >
         <div as="li" className="p-1 font-normal flex items-center gap-1">
           <MdOutlineToys />
           All Toys
         </div>
       </Link>
-      <Link to={`/myToys`} className="flex items-center">
+      <Link
+        onClick={() => updateTitles("My Toys")}
+        to={`/myToys`}
+        className="flex items-center"
+      >
         <div as="li" className="p-1 font-normal flex items-center gap-1">
           <MdOutlineBookmarkBorder />
           My Toys
         </div>
       </Link>
-      <Link to={"/addToy"} className="flex items-center">
+      <Link
+        to={"/addToy"}
+        onClick={() => updateTitles("Add Toy")}
+        className="flex items-center"
+      >
         <div as="li" className="p-1 font-normal flex items-center gap-1">
           <MdPlaylistAdd className="text-lg" />
           Add Toy
         </div>
       </Link>
-      <Link to={"/blog"} className="flex items-center">
+      <Link
+        onClick={() => updateTitles("Blogs")}
+        to={"/blog"}
+        className="flex items-center"
+      >
         <div as="li" className="p-1 font-normal flex items-center gap-1">
           <MdBook />
           Blogs
@@ -118,10 +142,14 @@ const NavBar = () => {
           {user ? null : (
             <>
               <Button variant="text" size="sm" color="blue-gray">
-                <Link to={"/login"}>Sign In</Link>
+                <Link onClick={() => updateTitles("SignIn")} to={"/login"}>
+                  Sign In
+                </Link>
               </Button>
               <Button variant="gradient" color="teal" size="sm">
-                <Link to={"/register"}>Sign Up</Link>
+                <Link onClick={() => updateTitles("Register")} to={"/register"}>
+                  Sign Up
+                </Link>
               </Button>
             </>
           )}

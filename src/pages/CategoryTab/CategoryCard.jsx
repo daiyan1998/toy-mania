@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthProvider";
 import { useContext } from "react";
+import noImg from "../../assets/noImg.jpg";
 
 const CatagoryCard = ({ filteredToy }) => {
   const { user } = useContext(AuthContext);
@@ -14,7 +15,10 @@ const CatagoryCard = ({ filteredToy }) => {
         <div className=" items-center lg:justify-between justify-center">
           <div className="mx-2 w-72 lg:mb-0 mb-8">
             <div>
-              <img src={picture} className="w-full h-44 object-contain" />
+              <img
+                src={picture || noImg}
+                className="w-full h-44 object-contain"
+              />
             </div>
             <div className="bg-white">
               <div className="flex items-center justify-between px-4 pt-4">

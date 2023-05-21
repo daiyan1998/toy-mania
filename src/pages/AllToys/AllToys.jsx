@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import Table from "./Table";
 
 const AllToys = () => {
+  document.title = "Toy Maine - All Toys";
   const [toys, setToys] = useState([]);
   const [searchText, setSearchText] = useState("");
 
