@@ -55,7 +55,7 @@ const CatagoryTab = () => {
     <>
       <Tabs value={activeTab}>
         <TabsHeader
-          className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
+          className="rounded-none border-b z-0 border-blue-gray-50 bg-transparent p-0"
           indicatorProps={{
             className:
               "bg-transparent border-b-2 border-blue-500 shadow-none rounded-none",
@@ -76,7 +76,7 @@ const CatagoryTab = () => {
           {data.map(({ value, desc }) => (
             <TabPanel key={value} value={value}>
               <SyncLoader loading={loading} color="#36a7c7" />
-              <div className="grid sm:grid-cols-3 grid-cols-1 justify-items-center items-center">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 justify-items-center items-center">
                 {filteredToys.map((filteredToy) => (
                   <CategoryCard filteredToy={filteredToy}></CategoryCard>
                 ))}

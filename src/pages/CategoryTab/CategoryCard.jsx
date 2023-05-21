@@ -1,7 +1,12 @@
 import { Button, Rating } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { AuthContext } from "../../context/AuthProvider";
+import { useContext } from "react";
 
 const CatagoryCard = ({ filteredToy }) => {
+  const { user } = useContext(AuthContext);
+  const notify = () => toast("You have to log in first to view details");
   const { picture, name, rating, price, category, _id } = filteredToy;
   return (
     <div>
@@ -34,7 +39,7 @@ const CatagoryCard = ({ filteredToy }) => {
             </div>
           </div>
         </div>
-        <Button color="teal">
+        <Button color="teal" onClick={user || notify}>
           <Link to={`/myToys/${_id}`}>View Details</Link>
         </Button>
       </div>

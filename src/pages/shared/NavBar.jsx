@@ -1,82 +1,136 @@
+import { useState, useEffect, useContext } from "react";
+import {
+  Navbar,
+  MobileNav,
+  Typography,
+  Button,
+  IconButton,
+  Avatar,
+} from "@material-tailwind/react";
+import {
+  MdArticle,
+  MdBook,
+  MdMenu,
+  MdMenuOpen,
+  MdOutlineBookmarkBorder,
+  MdOutlineToys,
+  MdPerson,
+  MdPlaylistAdd,
+} from "react-icons/md";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
 import logo from "../../assets/clipart2049110.png";
 import { AiOutlineHome, AiOutlinePlus } from "react-icons/ai";
-import { Link } from "react-router-dom";
 import { motion, useScroll } from "framer-motion";
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthProvider";
 import { Tooltip } from "@material-tailwind/react";
-const NavBar = () => {
-  const { logOut, user } = useContext(AuthContext);
-  const { scrollYProgress } = useScroll();
+import unknown from "../../assets/unknown.jpg";
 
+const NavBar = () => {
+  const { user, logOut } = useContext(AuthContext);
+  const [openNav, setOpenNav] = useState(false);
   const logoutHandler = () => {
     logOut();
   };
-  return (
-    <>
-      <div className="header sticky top-0 left-0 right-0 z-10 bg-white shadow-md flex items-center justify-between px-8 py-5">
-        <motion.div
-          className="bg-teal-400 fixed h-2.5 origin-[0%] top-0 inset-x-0"
-          style={{ scaleX: scrollYProgress }}
-        />
-        <h1 className="w-3/12">
-          <img className="h-16" src={logo} alt="" />
-        </h1>
-        <nav className="nav font-semibold text-lg">
-          <ul className="flex items-center">
-            <li className="p-4 border-b-2 flex items-center gap-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer active">
-              <AiOutlineHome></AiOutlineHome>
-              <Link to={"/"}>Home</Link>
-            </li>
-            <li className="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer">
-              <Link to={"/allToys"}>All Toys</Link>
-            </li>
-            <li className="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer">
-              <Link to={`/myToys`}>My Toys</Link>
-            </li>
-            <li className="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer">
-              <Link to={"/blog"}>Blogs</Link>
-            </li>
-            <li className="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer">
-              <Link to={"/addToy"} className="flex items-center  gap-1">
-                <AiOutlinePlus className="inline-block " /> Add A Toy
-              </Link>
-            </li>
-          </ul>
-        </nav>
 
-        <div className="w-3/12 gap-5 flex justify-end">
+  useEffect(() => {
+    window.addEventListener(
+      "resize",
+      () => window.innerWidth >= 960 && setOpenNav(false)
+    );
+  }, []);
+
+  const navList = (
+    <ul className="mb-4 mt-2 text-lg text-gray-700 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+      <Link to={"/"} className="flex items-center">
+        <div as="li" className="p-1 font-normal flex items-center gap-1">
+          <AiOutlineHome></AiOutlineHome>
+          Home
+        </div>
+      </Link>
+      <Link to={"/allToys"} className="flex items-center">
+        <div as="li" className="p-1 font-normal flex items-center gap-1">
+          <MdOutlineToys />
+          All Toys
+        </div>
+      </Link>
+      <Link to={`/myToys`} className="flex items-center">
+        <div as="li" className="p-1 font-normal flex items-center gap-1">
+          <MdOutlineBookmarkBorder />
+          My Toys
+        </div>
+      </Link>
+      <Link to={"/addToy"} className="flex items-center">
+        <div as="li" className="p-1 font-normal flex items-center gap-1">
+          <MdPlaylistAdd className="text-lg" />
+          Add Toy
+        </div>
+      </Link>
+      <Link to={"/blog"} className="flex items-center">
+        <div as="li" className="p-1 font-normal flex items-center gap-1">
+          <MdBook />
+          Blogs
+        </div>
+      </Link>
+    </ul>
+  );
+  return (
+    <Navbar className="rounded-none  sticky top-0 left-0 right-0 z-10 lg:px-8 lg:py-4 ">
+      <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
+        <Typography
+          as="a"
+          href="#"
+          className="mr-4 cursor-pointer py-1.5 font-medium"
+        >
+          <img className="h-16" src={logo} alt="" />
+        </Typography>
+        <div className="hidden lg:block">{navList}</div>
+
+        <IconButton
+          variant="text"
+          className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+          ripple={false}
+          onClick={() => setOpenNav(!openNav)}
+        >
+          {openNav ? (
+            <MdMenuOpen className="text-2xl" />
+          ) : (
+            <MdMenu className="text-2xl" />
+          )}
+        </IconButton>
+        <div className=" gap-2 lg:flex">
           {user && (
-            <div className="flex -space-x-2 overflow-hidden">
-              <Tooltip
-                content={user.displayName ? user.displayName : "No Name"}
-                placement="left"
-              >
-                <img
-                  className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
-                  src={user.photoURL}
-                  alt=""
-                />
+            <div className="flex gap-2">
+              <Tooltip content={user.displayName || "No Name"} placement="left">
+                <Avatar src={user.photoURL || unknown} />
               </Tooltip>
+              <Button
+                className="px-2 py-1"
+                onClick={logoutHandler}
+                variant="gradient"
+                color="teal"
+              >
+                Logout
+              </Button>
             </div>
           )}
-          {user ? (
-            <button
-              className="bg-teal-500 hover:bg-teal-700 text-white  py-1 px-2 rounded"
-              onClick={logoutHandler}
-            >
-              LogOut
-            </button>
-          ) : (
-            <button className="bg-teal-500 hover:bg-teal-700 text-white  py-1 px-2 rounded">
-              <Link to={"/login"}>Login</Link>
-            </button>
+          {user ? null : (
+            <>
+              <Button variant="text" size="sm" color="blue-gray">
+                <Link to={"/login"}>Sign In</Link>
+              </Button>
+              <Button variant="gradient" color="teal" size="sm">
+                <Link to={"/register"}>Sign Up</Link>
+              </Button>
+            </>
           )}
         </div>
       </div>
-    </>
+      <MobileNav open={openNav}>
+        <div className="container flex mx-auto">{navList}</div>
+      </MobileNav>
+    </Navbar>
   );
 };
 
