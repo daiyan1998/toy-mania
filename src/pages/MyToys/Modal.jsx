@@ -3,21 +3,18 @@ import {
   Dialog,
   DialogHeader,
   DialogBody,
-  DialogFooter,
-  Typography,
   Card,
   Input,
-  Checkbox,
   Button,
   Textarea,
   ButtonGroup,
 } from "@material-tailwind/react";
 import { MdOutlineEditNote } from "react-icons/md";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
-const Modal = ({ toys }) => {
-  const { picture, _id, name, price, quantity, category, online, sellerName } =
-    toys;
+const Modal = ({ toy, setToys, toys }) => {
+  const { _id, price, quantity } = toy;
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
@@ -29,19 +26,20 @@ const Modal = ({ toys }) => {
   } = useForm();
 
   const onSubmit = (data) => {
-    fetch(`http://localhost:5000/updateToy/${_id}`, {
+    const price = parseInt(data.price);
+    fetch(`https://toy-market-server-brown.vercel.app/updateToy/${_id}`, {
       method: "PUT",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ data }),
+      body: JSON.stringify({ ...data, price }),
     })
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
+        setToys(toys);
         if (result.modifiedCount > 0) {
-          alert("Updated");
+          Swal.fire("Updated!", "", "success");
         }
       });
-    console.log(data);
   };
 
   return (
@@ -62,6 +60,7 @@ const Modal = ({ toys }) => {
                 <div className="mb-4 flex flex-col gap-6">
                   <Input
                     size="lg"
+                    type="number"
                     defaultValue={price}
                     label="Price"
                     {...register("price")}
@@ -76,7 +75,7 @@ const Modal = ({ toys }) => {
                   <Input
                     size="lg"
                     defaultValue={quantity}
-                    type="text"
+                    type="number"
                     label="Available Quantity"
                     {...register("quantity")}
                   />

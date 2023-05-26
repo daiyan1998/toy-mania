@@ -1,13 +1,16 @@
 import { Typography, Button, CardBody, Chip } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../context/AuthProvider";
 import { useContext } from "react";
+import { toast } from "react-toastify";
 
 const Table = ({ toys }) => {
   const { user } = useContext(AuthContext);
-  const notify = () => toast("You have to log in first to view details");
+  const notify = () => {
+    if (user) return;
+    toast("You have to log in first to view details");
+  };
 
   const TABLE_HEAD = [
     "Toy Name",
@@ -41,101 +44,99 @@ const Table = ({ toys }) => {
             </tr>
           </thead>
           <tbody>
-            {toys
-              .slice(0, 20)
-              .map(
-                (
-                  {
-                    picture,
-                    _id,
-                    name,
-                    price,
-                    quantity,
-                    category,
-                    online,
-                    sellerName,
-                  },
-                  index
-                ) => {
-                  const isLast = index === toys.length - 1;
-                  const classes = isLast
-                    ? "p-4"
-                    : "p-4 border-b border-blue-gray-50";
+            {toys.map(
+              (
+                {
+                  picture,
+                  _id,
+                  name,
+                  price,
+                  quantity,
+                  category,
+                  online,
+                  sellerName,
+                },
+                index
+              ) => {
+                const isLast = index === toys.length - 1;
+                const classes = isLast
+                  ? "p-4"
+                  : "p-4 border-b border-blue-gray-50";
 
-                  return (
-                    <tr key={name}>
-                      <td className={classes}>
-                        <div className="flex items-center gap-3">
-                          <img
-                            className="h-24 w-24 object-contain"
-                            src={picture}
-                            alt={name}
-                            size="xxl"
-                          />
-                          <div className="flex flex-col">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal text-lg"
-                            >
-                              {name}
-                            </Typography>
-                          </div>
-                        </div>
-                      </td>
-                      <td className={classes}>
+                return (
+                  <tr key={_id}>
+                    <td className={classes}>
+                      <div className="flex items-center gap-3">
+                        <img
+                          className="h-24 w-24 object-contain"
+                          src={picture}
+                          alt={name}
+                          size="xxl"
+                        />
                         <div className="flex flex-col">
                           <Typography
                             variant="small"
                             color="blue-gray"
-                            className="font-bold"
+                            className="font-normal text-lg"
                           >
-                            ${price || "00"}
+                            {name}
                           </Typography>
                         </div>
-                      </td>
-                      <td className={classes}>
-                        <div className="flex flex-col">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-bold"
-                          >
-                            {quantity || "00"}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td className={classes}>
-                        <div className="w-max">
-                          <Chip
-                            variant="ghost"
-                            size="sm"
-                            // value={online ? "online" : "offline"}
-                            value={category}
-                            color={online ? "green" : "blue-gray"}
-                          />
-                        </div>
-                      </td>
-                      <td className={classes}>
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <div className="flex flex-col">
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-normal"
+                          className="font-bold"
                         >
-                          {sellerName ? sellerName : "Unknown"}
+                          ${price || "00"}
                         </Typography>
-                      </td>
-                      <td className={classes}>
-                        <div className="flex">
-                          <Button color="teal" onClick={user || notify}>
-                            <Link to={`/myToys/${_id}`}>View Details</Link>
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                }
-              )}
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <div className="flex flex-col">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-bold"
+                        >
+                          {quantity || "00"}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <div className="w-max">
+                        <Chip
+                          variant="ghost"
+                          size="sm"
+                          // value={online ? "online" : "offline"}
+                          value={category}
+                          color={online ? "green" : "blue-gray"}
+                        />
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {sellerName ? sellerName : "Unknown"}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <div className="flex">
+                        <Button color="teal" onClick={notify}>
+                          <Link to={`/myToys/${_id}`}>View Details</Link>
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              }
+            )}
             ;
           </tbody>
         </table>

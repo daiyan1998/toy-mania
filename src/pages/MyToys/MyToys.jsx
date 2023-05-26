@@ -10,11 +10,28 @@ import {
 } from "@material-tailwind/react";
 
 import { MdDelete, MdOutlineEditNote } from "react-icons/md";
-import Modal from "../shared/Modal";
+import Modal from "./Modal";
+import Swal from "sweetalert2";
+import { SyncLoader } from "react-spinners";
 
 const MyToys = () => {
-  const { user, setLoading, loading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [toys, setToys] = useState([]);
+  const [isTrue, setIsTrue] = useState(false);
+  const [loader, setLoader] = useState(true);
+  useEffect(() => {
+    const url = `https://toy-market-server-brown.vercel.app/myToySort?sellerEmail=${user?.email}&isTrue=${isTrue}`;
+
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("data:", data, isTrue);
+        setToys(data);
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  }, [user, isTrue]);
 
   const TABLE_HEAD = [
     "Toy Name",
@@ -25,29 +42,54 @@ const MyToys = () => {
     "",
   ];
 
-  const url = `http://localhost:5000/myToys?sellerEmail=${user.email}`;
+  // Fetch data
+  const url = `https://toy-market-server-brown.vercel.app/myToys/${user.email}`;
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
-      .then((data) => setToys(data))
+      .then((data) => {
+        setLoader(false);
+        setToys(data);
+      })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
       });
   }, []);
 
-  const handleDelete = (data) => {
-    fetch(`http://localhost:5000/deleteToy/${data?._id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
-        if (data.deletedCount > 0) {
-          alert("deleted");
-        }
-      });
-    console.log("clicked");
+  // Delete Data
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`https://toy-market-server-brown.vercel.app/deleteToy/${id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((result) => {
+            if (result.deletedCount > 0) {
+              Swal.fire("Deleted!", "Your file has been deleted.", "success");
+              const remaining = toys.filter((toy) => toy._id !== id);
+              setToys(remaining);
+            }
+          });
+      }
+    });
   };
+
+  if (loader) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <SyncLoader color="#36d7b7" cssOverride={{}} margin={14} size={28} />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -55,6 +97,25 @@ const MyToys = () => {
         <h1 className="text-7xl text-center h-56 my-52">No Toys Added</h1>
       ) : (
         <CardBody className="overflow-scroll px-0">
+          <div className="mb-3">
+            {isTrue ? (
+              <Button
+                color="teal"
+                className="btn mr-3"
+                onClick={() => setIsTrue(!isTrue)}
+              >
+                Descending
+              </Button>
+            ) : (
+              <Button
+                color="teal"
+                className="btn"
+                onClick={() => setIsTrue(!isTrue)}
+              >
+                Ascending
+              </Button>
+            )}
+          </div>
           <table className="mt-4 w-full min-w-max table-auto text-left">
             <thead>
               <tr>
@@ -77,16 +138,7 @@ const MyToys = () => {
             <tbody>
               {toys.map(
                 (
-                  {
-                    picture,
-                    _id,
-                    name,
-                    price,
-                    quantity,
-                    category,
-                    online,
-                    sellerName,
-                  },
+                  { picture, _id, name, price, quantity, category, sellerName },
                   index
                 ) => {
                   const isLast = index === toys.length - 1;
@@ -95,7 +147,7 @@ const MyToys = () => {
                     : "p-4 border-b border-blue-gray-50";
 
                   return (
-                    <tr key={name}>
+                    <tr key={_id}>
                       <td className={classes}>
                         <div className="flex items-center gap-3">
                           <img
@@ -112,13 +164,6 @@ const MyToys = () => {
                             >
                               {name}
                             </Typography>
-                            {/* <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal opacity-70"
-                            >
-                              {email}
-                            </Typography> */}
                           </div>
                         </div>
                       </td>
@@ -146,13 +191,7 @@ const MyToys = () => {
                       </td>
                       <td className={classes}>
                         <div className="w-max">
-                          <Chip
-                            variant="ghost"
-                            size="sm"
-                            // value={online ? "online" : "offline"}
-                            value={category}
-                            color={online ? "green" : "blue-gray"}
-                          />
+                          <Chip variant="ghost" size="sm" value={category} />
                         </div>
                       </td>
                       <td className={classes}>
@@ -174,16 +213,13 @@ const MyToys = () => {
                           </Button>
                           <div className="flex">
                             <Modal
-                              toys={{
-                                picture,
+                              toy={{
                                 _id,
-                                name,
                                 price,
                                 quantity,
-                                category,
-                                online,
-                                sellerName,
                               }}
+                              toys={toys}
+                              setToys={setToys}
                             ></Modal>
                           </div>
                           <Button color="teal">

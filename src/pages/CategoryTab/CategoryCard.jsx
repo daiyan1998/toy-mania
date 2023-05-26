@@ -7,7 +7,10 @@ import noImg from "../../assets/noImg.jpg";
 
 const CatagoryCard = ({ filteredToy }) => {
   const { user } = useContext(AuthContext);
-  const notify = () => toast("You have to log in first to view details");
+  const notify = () => {
+    if (user) return;
+    toast("You have to log in first to view details");
+  };
   const { picture, name, rating, price, category, _id } = filteredToy;
   return (
     <div>
@@ -23,8 +26,8 @@ const CatagoryCard = ({ filteredToy }) => {
             <div className="bg-white">
               <div className="flex items-center justify-between px-4 pt-4">
                 <div className="flex items-center ">
-                  <span className="mr-2">{rating}</span>
-                  <Rating value={Math.floor(rating)} readonly />
+                  <span className="mr-2">{rating ? rating : "5"}</span>
+                  {/* <Rating value={rating ? Math.floor(rating) : "1"} readonly /> */}
                 </div>
                 <div className="bg-yellow-200 py-1.5 px-6 rounded-full">
                   <p className="text-xs text-yellow-800">{category}</p>
@@ -43,7 +46,7 @@ const CatagoryCard = ({ filteredToy }) => {
             </div>
           </div>
         </div>
-        <Button color="teal" onClick={user || notify}>
+        <Button color="teal" onClick={notify}>
           <Link to={`/myToys/${_id}`}>View Details</Link>
         </Button>
       </div>

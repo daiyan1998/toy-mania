@@ -17,12 +17,11 @@ const CatagoryTab = () => {
   const [toys, setToys] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/")
+    fetch("https://toy-market-server-brown.vercel.app/")
       .then((res) => res.json())
       .then((data) => setToys(data));
   }, []);
   const filteredToys = toys.filter((toy) => toy.category == activeTab);
-  console.log("filteredToys:", filteredToys);
   const data = [
     {
       label: "Sports Car",
@@ -78,7 +77,10 @@ const CatagoryTab = () => {
               <SyncLoader loading={loading} color="#36a7c7" />
               <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 justify-items-center items-center">
                 {filteredToys.map((filteredToy) => (
-                  <CategoryCard filteredToy={filteredToy}></CategoryCard>
+                  <CategoryCard
+                    key={filteredToy._id}
+                    filteredToy={filteredToy}
+                  ></CategoryCard>
                 ))}
               </div>
             </TabPanel>

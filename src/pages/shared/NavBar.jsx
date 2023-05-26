@@ -6,6 +6,7 @@ import {
   Button,
   IconButton,
   Avatar,
+  Collapse,
 } from "@material-tailwind/react";
 import {
   MdArticle,
@@ -26,6 +27,7 @@ import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 import { Tooltip } from "@material-tailwind/react";
 import unknown from "../../assets/unknown.jpg";
+import updateTitles from "../../utils/updateTitle";
 
 const NavBar = () => {
   const { user, logOut, setTitle } = useContext(AuthContext);
@@ -34,9 +36,9 @@ const NavBar = () => {
     logOut();
   };
 
-  const updateTitles = (title) => {
-    document.title = `Toy Mania - ${title}`;
-  };
+  // const updateTitles = (title) => {
+  //   document.title = `Toy Mania - ${title}`;
+  // };
 
   useEffect(() => {
     window.addEventListener(
@@ -67,26 +69,30 @@ const NavBar = () => {
           All Toys
         </div>
       </Link>
-      <Link
-        onClick={() => updateTitles("My Toys")}
-        to={`/myToys`}
-        className="flex items-center"
-      >
-        <div as="li" className="p-1 font-normal flex items-center gap-1">
-          <MdOutlineBookmarkBorder />
-          My Toys
-        </div>
-      </Link>
-      <Link
-        to={"/addToy"}
-        onClick={() => updateTitles("Add Toy")}
-        className="flex items-center"
-      >
-        <div as="li" className="p-1 font-normal flex items-center gap-1">
-          <MdPlaylistAdd className="text-lg" />
-          Add Toy
-        </div>
-      </Link>
+      {user && (
+        <>
+          <Link
+            onClick={() => updateTitles("My Toys")}
+            to={`/myToys`}
+            className="flex items-center"
+          >
+            <div as="li" className="p-1 font-normal flex items-center gap-1">
+              <MdOutlineBookmarkBorder />
+              My Toys
+            </div>
+          </Link>
+          <Link
+            to={"/addToy"}
+            onClick={() => updateTitles("Add Toy")}
+            className="flex items-center"
+          >
+            <div as="li" className="p-1 font-normal flex items-center gap-1">
+              <MdPlaylistAdd className="text-lg" />
+              Add Toy
+            </div>
+          </Link>
+        </>
+      )}
       <Link
         onClick={() => updateTitles("Blogs")}
         to={"/blog"}
@@ -97,10 +103,20 @@ const NavBar = () => {
           Blogs
         </div>
       </Link>
+      <Link
+        onClick={() => updateTitles("About")}
+        to={"/about"}
+        className="flex items-center"
+      >
+        <div as="li" className="p-1 font-normal flex items-center gap-1">
+          <MdArticle />
+          About
+        </div>
+      </Link>
     </ul>
   );
   return (
-    <Navbar className="rounded-none  sticky top-0 left-0 right-0 z-10 lg:px-8 lg:py-4 ">
+    <Navbar className="rounded-none w-full mx-auto sticky top-0 left-0 right-0 z-10 lg:px-8 lg:py-4 ">
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
@@ -155,9 +171,9 @@ const NavBar = () => {
           )}
         </div>
       </div>
-      <MobileNav open={openNav}>
+      <Collapse open={openNav}>
         <div className="container flex mx-auto">{navList}</div>
-      </MobileNav>
+      </Collapse>
     </Navbar>
   );
 };

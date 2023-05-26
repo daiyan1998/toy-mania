@@ -10,10 +10,10 @@ import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
 import "./AddToy.css";
 import { AuthContext } from "../../context/AuthProvider";
+import Swal from "sweetalert2";
 
 const AddToy = () => {
   const { user } = useContext(AuthContext);
-  console.log("user:", user);
 
   const {
     register,
@@ -22,16 +22,20 @@ const AddToy = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    fetch("http://localhost:5000/addToy", {
+    const price = parseInt(data.price);
+    fetch("https://toy-market-server-brown.vercel.app/addToy", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, price }),
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log("result:", result);
+        console.log("show result", result);
+        if (result.insertedId) {
+          Swal.fire("Toy Added", "", "success");
+        }
       });
-    console.log("data", data);
+    console.log("data:", { ...data, price });
   };
 
   return (
@@ -50,7 +54,7 @@ const AddToy = () => {
               >
                 Personal Details
               </Typography>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 <Input
                   type="email"
                   label="Seller Email"
@@ -83,7 +87,7 @@ const AddToy = () => {
               >
                 Toy Details
               </Typography>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-4">
                 <Input
                   label="Toy Name"
                   required
@@ -111,10 +115,11 @@ const AddToy = () => {
                   </option>
                 </select>
               </div>
-              <div className="my-4 grid grid-cols-2 items-center gap-4">
+              <div className="my-4 grid grid-cols-1 sm:grid-cols-2 items-center gap-4">
                 <Input
                   label="Price"
                   type="number"
+                  defaultValue={20}
                   required
                   {...register("price")}
                   maxLength={5}
@@ -124,6 +129,7 @@ const AddToy = () => {
                   label="Rating"
                   required
                   type="number"
+                  defaultValue={5}
                   min={1}
                   {...register("rating")}
                   max={5}
@@ -136,6 +142,7 @@ const AddToy = () => {
                 />
                 <Input
                   type="number"
+                  defaultValue={20}
                   required
                   min={1}
                   maxLength={100}
@@ -147,6 +154,7 @@ const AddToy = () => {
               <Input
                 type="text"
                 className="w-full h-11"
+                defaultValue={"Good Car"}
                 label="Description"
                 {...register("description")}
               ></Input>

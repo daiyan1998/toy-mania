@@ -5,6 +5,7 @@ import { RouterProvider } from "react-router-dom";
 import router from "./routes/Root.jsx";
 import AuthProvider from "./context/AuthProvider";
 import { ToastContainer } from "react-toastify";
+import { Loading } from "react-fullscreen-loading";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

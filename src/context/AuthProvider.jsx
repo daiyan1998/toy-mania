@@ -17,8 +17,6 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [title, setTitle] = useState("");
-  document.title = `Toy Maina ${title}`;
   const googleProvider = new GoogleAuthProvider();
 
   const createUser = (email, password) => {
@@ -67,6 +65,7 @@ const AuthProvider = ({ children }) => {
     googleSignIn,
     logOut,
     updateInformation,
+    setLoading,
   };
 
   return (

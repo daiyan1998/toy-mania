@@ -8,55 +8,37 @@ import {
   CardBody,
   Chip,
   CardFooter,
+  ButtonGroup,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Table from "./Table";
 
+import { SyncLoader } from "react-spinners";
+
 const AllToys = () => {
-  document.title = "Toy Maine - All Toys";
   const [toys, setToys] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/")
+    fetch("https://toy-market-server-brown.vercel.app/allToys")
       .then((res) => res.json())
       .then((data) => setToys(data));
   }, []);
 
   const searchHandler = () => {
-    fetch(`http://localhost:5000/toySearchByTitle/${searchText}`)
+    fetch(
+      `https://toy-market-server-brown.vercel.app/toySearchByTitle/${searchText}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setToys(data);
       });
+    console.log(searchText);
   };
 
   //   const filteredToys = toys.filter((toy) => toy.category == activeTab);
   //   console.log("filteredToys:", filteredToys);
-
-  //   const TABS = [
-  //     {
-  //       label: "All",
-  //       value: "All",
-  //     },
-  //     {
-  //       label: "Sports Car",
-  //       value: "Sports Car",
-  //     },
-  //     {
-  //       label: "Truck",
-  //       value: "Truck",
-  //     },
-  //     {
-  //       label: "Mini Police Car",
-  //       value: "Mini Police Car",
-  //     },
-  //     {
-  //       label: "Regular Car",
-  //       value: "Regular Car",
-  //     },
-  //   ];
 
   const TABLE_HEAD = [
     "Toy Name",
@@ -67,32 +49,28 @@ const AllToys = () => {
     "",
   ];
 
+  if (toys.length == 0) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <SyncLoader color="#36d7b7" cssOverride={{}} margin={14} size={28} />
+      </div>
+    );
+  }
+
   return (
     <>
       <Card className="h-full w-full">
         <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-            {/* <Tabs value="all" className="w-full">
-              <TabsHeader>
-                {TABS.map(({ label, value }) => (
-                  <Tab
-                    key={value}
-                    value={value}
-                    onClick={() => setActiveTab(value)}
-                  >
-                    &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                  </Tab>
-                ))}
-              </TabsHeader>
-            </Tabs> */}
             <div className="flex gap-5 ">
               <Input
                 onChange={(e) => setSearchText(e.target.value)}
-                label="Search"
+                type="text"
                 icon={<MagnifyingGlassIcon className="h-5 w-5" />}
               />
               <Button
                 color="teal"
+                type="submit"
                 className="py-3 px-2"
                 onClick={searchHandler}
               >

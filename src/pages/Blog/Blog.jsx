@@ -112,11 +112,11 @@ const Blog = () => {
               className={"mt-6 w-full " + (open ? "block" : "hidden")}
             >
               <p className="text-base leading-6 text-gray-600 font-normal">
-                Remember you can query the status of your orders any time in My
-                orders in the My account section. if you are not resigered at
-                Mango.com, you can access dierectly in the Orders section. In
-                this cause, you will have enter your e-mail address and order
-                number.
+                Access tokens are short-lived credentials that are used to
+                access protected resources. Refresh tokens are long-lived
+                credentials that can be used to obtain new access tokens. Access
+                tokens and refresh tokens should be stored securely on the
+                client-side.
               </p>
             </div>
           </div>
@@ -167,11 +167,10 @@ const Blog = () => {
               className={"mt-6 w-full " + (open2 ? "block" : "hidden")}
             >
               <p className="text-base leading-6 text-gray-600 font-normal">
-                Remember you can query the status of your orders any time in My
-                orders in the My account section. if you are not resigered at
-                Mango.com, you can access dierectly in the Orders section. In
-                this cause, you will have enter your e-mail address and order
-                number.
+                SQL databases are good for storing and retrieving structured
+                data, while NoSQL databases are good for storing and retrieving
+                unstructured data. SQL databases are more complex to learn and
+                use than NoSQL databases.
               </p>
             </div>
           </div>
@@ -222,11 +221,10 @@ const Blog = () => {
               className={"mt-6 w-full " + (open3 ? "block" : "hidden")}
             >
               <p className="text-base leading-6 text-gray-600 font-normal">
-                Remember you can query the status of your orders any time in My
-                orders in the My account section. if you are not resigered at
-                Mango.com, you can access dierectly in the Orders section. In
-                this cause, you will have enter your e-mail address and order
-                number.
+                Express JS is a minimal framework for building web applications.
+                Nest JS is a framework built on top of Express JS that provides
+                a more opinionated and structured approach to building web
+                applications.
               </p>
             </div>
           </div>
@@ -277,11 +275,10 @@ const Blog = () => {
               className={"mt-6 w-full " + (open4 ? "block" : "hidden")}
             >
               <p className="text-base leading-6 text-gray-600 font-normal">
-                Remember you can query the status of your orders any time in My
-                orders in the My account section. if you are not resigered at
-                Mango.com, you can access dierectly in the Orders section. In
-                this cause, you will have enter your e-mail address and order
-                number.
+                MongoDB aggregate is a feature that allows you to perform
+                complex operations on your data. It is a powerful tool that can
+                be used to group, sort, filter, and calculate data in a variety
+                of ways.
               </p>
             </div>
           </div>
